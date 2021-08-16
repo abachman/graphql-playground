@@ -1,3 +1,4 @@
 {
-  "workbench.colorTheme": "Roseate"
+  "workbench.colorTheme": "Roseate",
+  "editor.formatOnSave": true
 }
