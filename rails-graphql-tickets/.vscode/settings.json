@@ -1,3 +1,7 @@
 {
-  "workbench.colorTheme": "Dracula Soft"
+  "workbench.colorTheme": "Dracula Soft",
+  "ruby.lint": {
+    "standard": true
+  },
+  "editor.formatOnSave": true
 }
