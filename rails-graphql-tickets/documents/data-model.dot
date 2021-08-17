@@ -1,0 +1,9 @@
+digraph G {
+  User -> Organization;
+  Production -> Organization;
+  Performance -> Production;
+  Ticket -> Performance;
+  Ticket -> Receipt;
+  Receipt -> Customer;
+  Customer -> Organization;
+}

@@ -1,0 +1,75 @@
+"""
+An ISO 8601-encoded datetime
+"""
+scalar ISO8601DateTime
+
+type Mutation {
+  """
+  An example field added by the generator
+  """
+  testField: String!
+}
+
+type Organization {
+  createdAt: ISO8601DateTime!
+  id: ID!
+  name: String
+  productions: [Production!]
+  updatedAt: ISO8601DateTime!
+  users: [User!]
+}
+
+type Performance {
+  createdAt: ISO8601DateTime!
+  doorsOpenAt: ISO8601DateTime
+  id: ID!
+  name: String
+  productionId: Int!
+  showtimeAt: ISO8601DateTime
+  updatedAt: ISO8601DateTime!
+}
+
+type Production {
+  createdAt: ISO8601DateTime!
+  id: ID!
+  organizationId: Int!
+
+  """
+  Performances of the given production
+  """
+  performances: [Performance!]
+  runtimeMinutes: Int
+  ticketTypes: [Ticket!]
+  title: String
+  updatedAt: ISO8601DateTime!
+}
+
+type Query {
+  """
+  A single organization
+  """
+  organization(id: ID!): Organization!
+
+  """
+  All organizations
+  """
+  organizations: [Organization!]
+}
+
+type Ticket {
+  createdAt: ISO8601DateTime!
+  id: ID!
+  name: String
+  priceInCents: Int
+  productionId: Int!
+  updatedAt: ISO8601DateTime!
+}
+
+type User {
+  createdAt: ISO8601DateTime!
+  email: String
+  id: ID!
+  name: String
+  organizationId: Int!
+  updatedAt: ISO8601DateTime!
+}
