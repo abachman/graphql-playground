@@ -4,20 +4,24 @@ FROM node:10
 
 # A directory within the virtualized Docker environment
 # Becomes more relevant when using Docker Compose later
-WORKDIR /usr/src/app
+WORKDIR /react
+
+ENV PATH /react/node_modules/.bin:$PATH
 
 # Copies package.json and yarn.lock to Docker environment
-COPY package.json ./
-COPY yarn.lock ./
+COPY package.json yarn.lock /react/
 
-# Installs all node packages
+# Installs all packages
 RUN yarn install
 
 # Copies everything over to Docker environment
-COPY . .
+COPY . /react/
 
 # Uses port which is used by the actual application
 EXPOSE 3000
 
+# polling instead of filesystem notifications
+ENV CHOKIDAR_USEPOLLING true
+
 # Finally runs the application
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

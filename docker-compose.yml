@@ -4,19 +4,23 @@ services:
     container_name: rails-graphql-tickets
     build: ./rails-graphql-tickets
     volumes:
-      - ./rails-graphql-tickets:/rails:cached
+      - ./rails-graphql-tickets:/rails
+      - bundle_path:/bundle
     ports:
       - "3001:3001"
     environment:
       - RAILS_ENV=development
+      - BUNDLE_PATH=/bundle/vendor
     depends_on:
       - postgres
 
   react:
     container_name: react-graphql-tickets
-    build: ./react-graphql-tickets
+    build:
+      context: ./react-graphql-tickets
     volumes:
-      - ./react-graphql-tickets:/react
+      - ./react-graphql-tickets/src:/react/src
+      - ./react-graphql-tickets/public/assets:/react/public/assets
       - /react/node_modules
     ports:
       - "3000:3000"
@@ -32,3 +36,6 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: postgres
+
+volumes:
+  bundle_path:
