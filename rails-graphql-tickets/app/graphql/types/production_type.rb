@@ -7,6 +7,12 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
+    field :performanceCount, Integer, null: false
+
+    def performanceCount
+      object.performances.count
+    end
+
     field :performances,
           [Types::PerformanceType],
           null: true,

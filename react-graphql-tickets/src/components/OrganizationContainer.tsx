@@ -25,17 +25,17 @@ export const OrganizationContainer = () => {
   if (loading) return <p>loading...</p>;
   if (error) return <QueryError error={error} />;
 
-  console.log("data with stuff", data);
-
   return (
     <div>
       <h1>{data.organization.name} Productions</h1>
 
-      <ul>
-        {data.organization.productions.map((production: any) => {
-          return <li key={production.id}>{production.title}</li>;
-        })}
-      </ul>
+      {data.organization.productions.map((production: any) => {
+        return (
+          <div key={production.id}>
+            <Link to={`/${id}/${production.id}`}>{production.title}</Link>
+          </div>
+        );
+      })}
 
       <Link to="/">Back</Link>
     </div>

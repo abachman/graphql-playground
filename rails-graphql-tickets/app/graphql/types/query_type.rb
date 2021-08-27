@@ -7,10 +7,21 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
+    field :production, Types::ProductionType, null: false do
+      description 'A single production'
+      argument :organizationId, ID, required: true
+      argument :id, ID, required: true
+    end
+
+    def production(organizationId:, id:)
+      Production.find_by(id: id, organization_id: organizationId)
+    end
+
     field :organization, Types::OrganizationType, null: false do
       description 'A single organization'
       argument :id, ID, required: true
     end
+
     def organization(id:)
       Organization.find(id)
     end
@@ -19,6 +30,7 @@ module Types
           [Types::OrganizationType],
           null: true,
           description: 'All organizations'
+
     def organizations
       Organization.all
     end

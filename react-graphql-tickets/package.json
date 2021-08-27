@@ -13,6 +13,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.8",
+    "apollo": "^2.33.6",
     "autoprefixer": "^9",
     "graphql": "^15.5.1",
     "postcss": "^7",
@@ -29,7 +30,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "schema": "cp -vR ../rails-graphql-tickets/export/* external/; apollo codegen:generate --localSchemaFile=./external/graphql/schema.json --target=typescript"
   },
   "eslintConfig": {
     "extends": [
