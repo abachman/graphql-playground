@@ -6,29 +6,41 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-puts "--- db:seed ---"
+puts '--- db:seed ---'
 
 RUNTIMES = [30, 60, 90, 120, 150]
 
 3.times do
   # org + performances
-  org = Organization.create!(name: "#{Faker::Commerce.color} #{Faker::Ancient.titan}".titleize)
+  org =
+    Organization.create!(
+      name: "#{Faker::Commerce.color} #{Faker::Ancient.titan}".titleize,
+    )
 
   puts "[org] populate #{org.name}"
 
   rand(2..4).times do
-    User.create!(name: Faker::Name.name, email: Faker::Internet.email, organization: org)
+    User.create!(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      organization: org,
+      password: 'password',
+    )
   end
 
   rand(2..8).times do
-    production = Production.create!(title: Faker::Commerce.product_name.titleize, organization: org,
-      runtime_minutes: RUNTIMES.sample)
+    production =
+      Production.create!(
+        title: Faker::Commerce.product_name.titleize,
+        organization: org,
+        runtime_minutes: RUNTIMES.sample,
+      )
 
     rand(2..4).times do
       TicketType.create!(
         production: production,
         price_in_cents: (Faker::Commerce.price * 100).floor,
-        name: Faker::Commerce.material
+        name: Faker::Commerce.material,
       )
     end
 

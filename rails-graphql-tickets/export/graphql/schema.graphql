@@ -3,17 +3,12 @@ input AuthProviderCredentialsInput {
   password: String!
 }
 
-input AuthProviderSignupData {
-  credentials: AuthProviderCredentialsInput
-}
-
 """
 An ISO 8601-encoded datetime
 """
 scalar ISO8601DateTime
 
 type Mutation {
-  createUser(authProvider: AuthProviderSignupData, name: String!): User!
   signInUser(credentials: AuthProviderCredentialsInput): SignInUserPayload
 }
 
