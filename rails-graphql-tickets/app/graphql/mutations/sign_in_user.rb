@@ -2,7 +2,7 @@ module Mutations
   class SignInUser < BaseMutation
     null true
 
-    argument :credentials, Types::AuthProviderCredentialsInput, required: false
+    argument :credentials, Inputs::AuthProviderCredentialsInput, required: false
 
     field :token, String, null: true
     field :user, Types::UserType, null: true
@@ -20,11 +20,7 @@ module Mutations
       end
 
       # use Ruby on Rails - ActiveSupport::MessageEncryptor, to build a token
-      crypt =
-        ActiveSupport::MessageEncryptor.new(
-          Rails.application.credentials.secret_key_base.byteslice(0..31),
-        )
-      token = crypt.encrypt_and_sign("user-id:#{user.id}")
+      token = user.token
 
       context[:session][:token] = token
 
