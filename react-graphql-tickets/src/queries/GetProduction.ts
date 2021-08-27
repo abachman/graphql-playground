@@ -3,13 +3,16 @@ import { gql } from "@apollo/client";
 interface Performance {
   id: number;
   showtimeAt: string;
+  name: string;
 }
 
 export interface GetProductionData {
-  id: number;
-  title: string;
-  performanceCount: number;
-  performances: Performance[];
+  production: {
+    id: number;
+    title: string;
+    performanceCount: number;
+    performances: Performance[];
+  };
 }
 
 export interface GetProductionVariables {
@@ -25,6 +28,7 @@ export const GetProduction = gql`
       performanceCount
       performances {
         id
+        name
         showtimeAt
       }
     }
