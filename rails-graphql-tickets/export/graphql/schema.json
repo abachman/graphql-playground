@@ -708,6 +708,20 @@
           "description": null,
           "fields": [
             {
+              "name": "currentUser",
+              "description": "Current user",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "organization",
               "description": "A single organization",
               "args": [

@@ -23,7 +23,7 @@ class GraphqlController < ApplicationController
   end
 
   def current_user
-    puts "[current_user] session #{session}"
+    # puts "[current_user] session #{session}"
 
     # if we want to change the sign-in strategy, this is the place to do it
     return unless session[:token]

@@ -55,7 +55,7 @@ module Mutations
       end
     end
 
-    it 'prevents other organizations from creating performances' do
+    it 'prevents cross-organization performance creation' do
       sign_in(author)
 
       production = create(:production, organization: other_author.organization)
@@ -76,9 +76,9 @@ module Mutations
 
       puts "[test] received #{json}"
       data = json['errors']
-      expect(data).to be_present?
+      expect(data).to be_present
 
-      expect(data[0]['message']).to eq('expected authenticated user')
+      expect(data[0]['message']).to eq('failed to find production')
     end
   end
 end
