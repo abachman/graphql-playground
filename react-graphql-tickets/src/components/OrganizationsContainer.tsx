@@ -17,11 +17,13 @@ export const OrganizationsContainer = () => {
 
   return (
     <div>
-      <h2>Tickets!</h2>
+      <header>
+        <h2 className="mb-8">Tickets!</h2>
+      </header>
 
       {data.organizations.map((organization) => {
         return (
-          <div key={organization.id} className="mt-8">
+          <div key={organization.id} className="mb-8">
             <Link to={`/${organization.id}`}>{organization.name}</Link>
           </div>
         );

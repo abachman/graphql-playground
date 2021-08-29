@@ -27,17 +27,18 @@ export const OrganizationContainer = () => {
 
   return (
     <div>
-      <h1>{data.organization.name} Productions</h1>
+      <header>
+        <h1>{data.organization.name} Productions</h1>
+        <Link to="/">See all organizations</Link>
+      </header>
 
       {data.organization.productions.map((production: any) => {
         return (
-          <div key={production.id}>
+          <div className="mb-4" key={production.id}>
             <Link to={`/${id}/${production.id}`}>{production.title}</Link>
           </div>
         );
       })}
-
-      <Link to="/">Back</Link>
     </div>
   );
 };

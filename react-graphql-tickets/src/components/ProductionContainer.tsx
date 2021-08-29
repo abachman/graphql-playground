@@ -5,6 +5,7 @@ import {
   GetProductionData,
   GetProductionVariables,
 } from "../queries/GetProduction";
+import { shortDate } from "../utils/dates";
 import { QueryError } from "./QueryError";
 
 type ProductionParams = {
@@ -31,26 +32,28 @@ export const ProductionContainer = () => {
 
   return (
     <div>
-      <h2>{production.title}</h2>
-
-      <p>Organization: {organizationId}</p>
-      <p>Production: {productionId}</p>
+      <header>
+        <h2>{production.title}</h2>
+        <Link to={`/${organizationId}`}>See all productions</Link>
+      </header>
 
       {production.performanceCount && (
-        <h3 className="mt-8">
+        <h3 className="mt-8 mb-4">
           <strong>{production.performanceCount} Performances</strong>
         </h3>
       )}
 
       {production.performances?.map((performance) => {
         return (
-          <div key={performance.id}>
-            {performance.name} {performance.showtimeAt}
+          <div
+            className="grid gap-4 grid-cols-2 w-1/3 mb-4"
+            key={performance.id}
+          >
+            <span>{shortDate(performance.showtimeAt)}</span>
+            <button className="btn">Start Order</button>
           </div>
         );
       })}
-
-      <Link to={`/${organizationId}`}>Back</Link>
     </div>
   );
 };
