@@ -18,7 +18,7 @@ export const OrganizationsContainer = () => {
   return (
     <div>
       <header>
-        <h2 className="mb-8">Tickets!</h2>
+        <h2 className="mb-8">Organizations</h2>
       </header>
 
       {data.organizations.map((organization) => {

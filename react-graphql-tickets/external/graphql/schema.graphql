@@ -64,6 +64,11 @@ type Production {
 
 type Query {
   """
+  Current user
+  """
+  currentUser: User
+
+  """
   A single organization
   """
   organization(id: ID!): Organization!

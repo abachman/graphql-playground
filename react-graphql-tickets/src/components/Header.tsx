@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { SignInButton } from "./SignInButton";
 
 export const Header = () => {
   return (
@@ -34,9 +35,7 @@ export const Header = () => {
       >
         <ul className="list-reset lg:flex justify-end flex-1 items-center">
           <li className="mr-3">
-            <button className="inline-block text-gray-200 no-underline hover:text-blue-200 hover:text-underline py-2 px-4">
-              Sign In
-            </button>
+            <SignInButton />
           </li>
         </ul>
       </div>

@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
+import { AUTH_TOKEN } from "../constants";
 import { QueryError } from "./QueryError";
 
 const ORGANIZATION = gql`
@@ -17,6 +18,7 @@ const ORGANIZATION = gql`
 
 export const OrganizationContainer = () => {
   const { id } = useParams<{ id: string }>();
+  const token = localStorage.getItem(AUTH_TOKEN);
 
   const { loading, error, data } = useQuery(ORGANIZATION, {
     variables: { organizationId: id },
@@ -39,6 +41,8 @@ export const OrganizationContainer = () => {
           </div>
         );
       })}
+
+      {token && <button>Add Organization</button>}
     </div>
   );
 };
