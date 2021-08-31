@@ -2,13 +2,15 @@
 FROM ruby:2.7.3
 RUN apt-get update -qq && apt-get install -y postgresql-client
 
-WORKDIR /rails
-COPY Gemfile /rails/
-COPY Gemfile.lock /rails/
+ENV APP_HOME /rails
+WORKDIR ${APP_HOME}
+ADD Gemfile* ${APP_HOME}/
 
-RUN bundle install
+ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile \
+  BUNDLE_JOBS=2 \
+  BUNDLE_PATH=/bundle
+# RUN bundle install
 
-# Add a script to be executed every time the container starts.
 COPY bin/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]

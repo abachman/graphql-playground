@@ -14,9 +14,12 @@ module Mutations
       user = User.find_by email: credentials[:email]
 
       # ensures we have the correct user
-      raise 'failed to find user' unless user
+      unless user
+        raise GraphQL::ExecutionError, 'user with email does not exist'
+      end
+
       unless user.authenticate(credentials[:password])
-        raise 'invalid password for user'
+        raise GraphQL::ExecutionError, 'invalid password for user'
       end
 
       # use Ruby on Rails - ActiveSupport::MessageEncryptor, to build a token

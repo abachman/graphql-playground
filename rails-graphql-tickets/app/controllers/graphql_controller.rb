@@ -9,6 +9,9 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = { current_user: current_user, session: session }
+
+    puts "[controller] CONTEXT #{context}"
+
     result =
       TicketsSchema.execute(
         query,
@@ -23,12 +26,12 @@ class GraphqlController < ApplicationController
   end
 
   def current_user
-    # puts "[current_user] session #{session}"
+    # puts "[current_user] session #{session}; token #{bearer_token.inspect}"
 
     # if we want to change the sign-in strategy, this is the place to do it
-    return unless session[:token]
+    return unless bearer_token
 
-    user_id = User.id_from_token(session[:token])
+    user_id = User.id_from_token(bearer_token)
 
     User.find user_id
   rescue ActiveSupport::MessageVerifier::InvalidSignature
@@ -36,6 +39,12 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def bearer_token
+    pattern = /^Bearer /
+    header = request.headers['Authorization']
+    header.gsub(pattern, '') if header && header.match(pattern)
+  end
 
   # Handle variables in form data, JSON body, or a blank value
   def prepare_variables(variables_param)

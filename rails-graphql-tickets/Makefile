@@ -17,6 +17,7 @@ test: #: Run the tests
 	docker-compose run -e RAILS_ENV=test --rm $(APP) bundle exec rspec
 
 bundle: #: Installs gems via down, command, up
+	docker-compose stop $(APP)
 	docker-compose down $(APP)
 	docker-compose run $(APP) bundle install
 	docker-compose up -d $(APP)
