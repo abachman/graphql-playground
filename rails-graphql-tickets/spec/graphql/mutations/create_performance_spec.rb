@@ -28,8 +28,6 @@ module Mutations
 
     describe '.resolve' do
       it 'creates a performance' do
-        sign_in(author)
-
         production = create(:production, organization: author.organization)
 
         expect {
@@ -43,7 +41,8 @@ module Mutations
                      showtimeAt: '2023-03-20T12:00:00Z',
                    },
                  },
-               }
+               },
+               headers: authentication_header(author)
           expect(response).to be_successful
         }.to change(Performance, :count).by(1)
 
@@ -56,8 +55,6 @@ module Mutations
     end
 
     it 'prevents cross-organization performance creation' do
-      sign_in(author)
-
       production = create(:production, organization: other_author.organization)
 
       post '/graphql',
@@ -70,11 +67,12 @@ module Mutations
                  showtimeAt: '2023-03-20T12:00:00Z',
                },
              },
-           }
+           },
+           headers: authentication_header(author)
 
       json = JSON.parse(response.body)
 
-      puts "[test] received #{json}"
+      # puts "[test] received #{json}"
       data = json['errors']
       expect(data).to be_present
 

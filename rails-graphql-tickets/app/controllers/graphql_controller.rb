@@ -10,7 +10,7 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = { current_user: current_user, session: session }
 
-    puts "[controller] CONTEXT #{context}"
+    # puts "[controller] CONTEXT #{context}"
 
     result =
       TicketsSchema.execute(

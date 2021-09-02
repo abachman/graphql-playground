@@ -18,6 +18,6 @@ module Types
           null: true,
           description: 'Performances of the given production'
 
-    field :ticket_types, [Types::TicketType], null: true
+    field :ticket_types, [Types::TicketTypeType], null: true
   end
 end

@@ -12,7 +12,7 @@ export interface GetCurrentUserData {
 }
 
 export const GetCurrentUser = gql`
-  query {
+  query GetCurrentUser {
     currentUser {
       id
       name

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-module Mutations
+module Queries
   RSpec.describe 'query current_user', type: :request do
     def query
       <<~GQL
@@ -17,14 +17,17 @@ module Mutations
       let!(:user) { create(:user) }
 
       it 'returns user when signed in' do
-        sign_in(user)
-
-        post '/graphql', params: { query: query }
+        post '/graphql',
+             params: {
+               query: query,
+             },
+             headers: authentication_header(user)
         expect(response).to be_successful
 
         json = JSON.parse(response.body)
         data = json['data']['currentUser']
 
+        expect(data).to_not be_nil
         expect(data['id']).to eq(user.id.to_s)
       end
 

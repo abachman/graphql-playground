@@ -1,18 +1,20 @@
 import { gql } from "@apollo/client";
 
-interface Performance {
+export interface Performance {
   id: number;
   showtimeAt: string;
   name: string;
 }
 
+export interface Production {
+  id: number;
+  title: string;
+  performanceCount: number;
+  performances: Performance[];
+}
+
 export interface GetProductionData {
-  production: {
-    id: number;
-    title: string;
-    performanceCount: number;
-    performances: Performance[];
-  };
+  production: Production;
 }
 
 export interface GetProductionVariables {

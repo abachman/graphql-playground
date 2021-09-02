@@ -6,4 +6,5 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   belongs_to :organization
+  belongs_to :customer, optional: true
 end

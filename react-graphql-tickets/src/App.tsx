@@ -4,12 +4,20 @@ import { SignInContainer } from "./components/SignInContainer";
 import { OrganizationContainer } from "./components/OrganizationContainer";
 import { OrganizationsContainer } from "./components/OrganizationsContainer";
 import { ProductionContainer } from "./components/ProductionContainer";
+import { PerformanceOrderForm } from "./components/PerformanceOrderForm";
 
 function App() {
   return (
     <>
       <Switch>
         <Route exact path="/login" component={SignInContainer} />
+
+        <Route path="/:organizationId/:productionId/:performanceId">
+          <Header />
+          <main>
+            <PerformanceOrderForm />
+          </main>
+        </Route>
 
         <Route path="/:organizationId/:productionId">
           <Header />

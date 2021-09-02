@@ -5,13 +5,13 @@ import {
   GetProductionData,
   GetProductionVariables,
 } from "../queries/GetProduction";
-import { shortDate } from "../utils/dates";
+import { PerformancesTableRow } from "./PerformancesTableRow";
 import { QueryError } from "./QueryError";
 
-type ProductionParams = {
+export interface ProductionParams {
   productionId: string;
   organizationId: string;
-};
+}
 
 export const ProductionContainer = () => {
   const { organizationId, productionId } = useParams<ProductionParams>();
@@ -43,17 +43,9 @@ export const ProductionContainer = () => {
         </h3>
       )}
 
-      {production.performances?.map((performance) => {
-        return (
-          <div
-            className="grid gap-4 grid-cols-2 w-1/3 mb-4"
-            key={performance.id}
-          >
-            <span>{shortDate(performance.showtimeAt)}</span>
-            <button className="btn">Start Order</button>
-          </div>
-        );
-      })}
+      {production.performances?.map((performance) => (
+        <PerformancesTableRow key={performance.id} performance={performance} />
+      ))}
     </div>
   );
 };

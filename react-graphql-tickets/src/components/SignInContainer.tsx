@@ -1,33 +1,11 @@
 import { Link, useHistory } from "react-router-dom";
 
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { QueryError } from "./QueryError";
 import { useState } from "react";
 import { useAppDispatch } from "../store/hooks";
 import { setToken } from "../store/authSlice";
-
-interface LogInUserData {
-  signInUser: {
-    user: {
-      name: string;
-      email: string;
-    };
-
-    token: string;
-  };
-}
-
-const LogInMutation = gql`
-  mutation signIn($credentials: AuthProviderCredentialsInput!) {
-    signInUser(credentials: $credentials) {
-      user {
-        name
-        email
-      }
-      token
-    }
-  }
-`;
+import { SignInMutation } from "../mutations/SignInMutation";
 
 export const SignInContainer = () => {
   const history = useHistory();
@@ -38,25 +16,22 @@ export const SignInContainer = () => {
     password: "",
   });
 
-  const [logIn, { client, loading, error }] = useMutation<LogInUserData>(
-    LogInMutation,
-    {
-      variables: {
-        credentials: {
-          email: formState.email,
-          password: formState.password,
-        },
+  const [logIn, { client, loading, error }] = useMutation(SignInMutation, {
+    variables: {
+      credentials: {
+        email: formState.email,
+        password: formState.password,
       },
-      onCompleted: ({ signInUser }) => {
-        dispatch(setToken(signInUser.token));
-        client.clearStore();
-        history.push("/");
-      },
-      onError: (error) => {
-        console.error("[failed login]", error);
-      },
-    }
-  );
+    },
+    onCompleted: ({ signInUser }) => {
+      dispatch(setToken(signInUser.token));
+      client.clearStore();
+      history.push("/");
+    },
+    onError: (error) => {
+      console.error("[failed login]", error);
+    },
+  });
 
   if (loading) return <p>loading...</p>;
 

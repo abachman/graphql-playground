@@ -36,5 +36,18 @@ module Types
     def current_user
       context[:current_user]
     end
+
+    field :performance_order_form,
+          Types::PerformanceOrderFormType,
+          null: true do
+      description 'Performance order form fields'
+      argument :id, ID, required: true
+    end
+
+    def performance_order_form(id:)
+      Performance
+        .includes(production: %i[ticket_types organization])
+        .find_by(id: id)
+    end
   end
 end

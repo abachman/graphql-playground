@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-module Mutations
+module Queries
   RSpec.describe 'query organizations', type: :request do
     def query
       <<~GQL
