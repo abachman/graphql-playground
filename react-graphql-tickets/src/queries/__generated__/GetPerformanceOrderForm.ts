@@ -7,6 +7,29 @@
 // GraphQL query operation: GetPerformanceOrderForm
 // ====================================================
 
+export interface GetPerformanceOrderForm_performanceOrderForm_receipt_tickets_performance {
+  __typename: "Performance";
+  id: string;
+}
+
+export interface GetPerformanceOrderForm_performanceOrderForm_receipt_tickets_ticketType {
+  __typename: "TicketType";
+  id: string;
+}
+
+export interface GetPerformanceOrderForm_performanceOrderForm_receipt_tickets {
+  __typename: "Ticket";
+  id: string;
+  performance: GetPerformanceOrderForm_performanceOrderForm_receipt_tickets_performance;
+  ticketType: GetPerformanceOrderForm_performanceOrderForm_receipt_tickets_ticketType;
+}
+
+export interface GetPerformanceOrderForm_performanceOrderForm_receipt {
+  __typename: "Receipt";
+  id: string;
+  tickets: GetPerformanceOrderForm_performanceOrderForm_receipt_tickets[];
+}
+
 export interface GetPerformanceOrderForm_performanceOrderForm_production {
   __typename: "Production";
   id: string;
@@ -28,6 +51,7 @@ export interface GetPerformanceOrderForm_performanceOrderForm_ticketTypes {
 
 export interface GetPerformanceOrderForm_performanceOrderForm {
   __typename: "PerformanceOrderForm";
+  receipt: GetPerformanceOrderForm_performanceOrderForm_receipt;
   production: GetPerformanceOrderForm_performanceOrderForm_production;
   performance: GetPerformanceOrderForm_performanceOrderForm_performance;
   ticketTypes: GetPerformanceOrderForm_performanceOrderForm_ticketTypes[];

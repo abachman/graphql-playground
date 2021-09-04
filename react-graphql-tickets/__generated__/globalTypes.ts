@@ -12,6 +12,16 @@ export interface AuthProviderCredentialsInput {
   password: string;
 }
 
+export interface TicketTypeQuantityInput {
+  ticketTypeId: string;
+  quantity: number;
+}
+
+export interface UpdateOrderInput {
+  ticketTypeQuantities: TicketTypeQuantityInput[];
+  performanceId: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

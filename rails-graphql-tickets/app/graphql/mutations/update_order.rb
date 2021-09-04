@@ -3,21 +3,26 @@ module Mutations
     null true
 
     argument :receipt_id, ID, required: true
-    argument :performance_id, ID, required: true
-    argument :ticket_type_id, ID, required: true
-    argument :action, String, required: true
+    argument :update, Inputs::UpdateOrderInput, required: true
 
     field :receipt, Types::ReceiptType, null: false
 
-    def resolve(receipt_id:, performance_id:, ticket_type_id:, action:)
-      # current_customer = context[:current_customer]
+    # bulk update a receipt for a given performance
+    def resolve(receipt_id:, update:)
       current_user = context[:current_user]
-
       unless current_user
         raise GraphQL::ExecutionError, 'authenticated user required'
       end
 
-      { receipt: nil }
+      current_customer = current_user.customer
+      unless current_customer
+        raise GraphQL::ExecutionError, 'customer should already exist'
+      end
+
+      receipt = current_customer.draft_receipt
+      ReceiptUpdater.process(receipt: receipt, update: update)
+
+      { receipt: current_customer.draft_receipt }
     end
   end
 end

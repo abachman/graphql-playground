@@ -16,4 +16,6 @@ export const Paths = {
     performanceId,
   }: PerformanceOrderParams) =>
     `/${organizationId}/${productionId}/${performanceId}`,
+
+  checkout: () => "/checkout",
 };

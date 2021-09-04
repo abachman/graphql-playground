@@ -1,13 +1,3 @@
-// export interface SignInData {
-//   signInUser: {
-//     user: {
-//       name: string;
-//       email: string;
-//     };
-//     token: string;
-//   };
-// }
-
 import { gql } from "@apollo/client";
 
 export const SignInMutation = gql`

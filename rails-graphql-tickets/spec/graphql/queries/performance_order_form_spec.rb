@@ -9,6 +9,7 @@ module Queries
             production { id title }
             performance { id }
             ticketTypes { id name priceInCents }
+            receipt { id }
           }
         }
       GQL
@@ -48,8 +49,10 @@ module Queries
 
         json = JSON.parse(response.body)
         data = json['data']['performanceOrderForm']
+        errors = json['data']['errors']
 
         expect(data).to be_nil
+        expect(errors).to be_nil
       end
     end
   end

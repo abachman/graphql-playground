@@ -1,4 +1,6 @@
 {
   "workbench.colorTheme": "Roseate",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+  "emmet.showAbbreviationSuggestions": false
 }

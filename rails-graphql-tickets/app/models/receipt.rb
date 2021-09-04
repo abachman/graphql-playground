@@ -1,5 +1,6 @@
 class Receipt < ApplicationRecord
   belongs_to :customer
+  has_many :tickets
 
   include AASM
 

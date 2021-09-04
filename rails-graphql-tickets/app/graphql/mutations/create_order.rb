@@ -12,10 +12,8 @@ module Mutations
         raise GraphQL::ExecutionError, 'authenticated user required'
       end
 
-      current_customer =
-        current_user.customer.presence || current_user.create_customer
-
-      receipt = current_customer.draft_receipt
+      customer = current_user.customer.presence || current_user.create_customer
+      receipt = customer.draft_receipt
 
       { receipt: receipt }
     end

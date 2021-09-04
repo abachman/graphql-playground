@@ -1,0 +1,38 @@
+mutation ($receiptId: ID!, $update: UpdateOrderInput!) {
+  updateOrder(receiptId: $receiptId, update: $update) {
+    receipt {
+      id
+
+      customer {
+        id
+        name
+        email
+
+        user {
+          id
+          name
+          email
+        }
+      }
+
+      tickets {
+        id
+
+        ticketType {
+          id
+          priceInCents
+
+          production {
+            id
+            title
+          }
+        }
+
+        performance {
+          id
+          showtimeAt
+        }
+      }
+    }
+  }
+}

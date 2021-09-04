@@ -5,12 +5,19 @@ import { OrganizationContainer } from "./components/OrganizationContainer";
 import { OrganizationsContainer } from "./components/OrganizationsContainer";
 import { ProductionContainer } from "./components/ProductionContainer";
 import { PerformanceOrderForm } from "./components/PerformanceOrderForm";
+import { CheckoutContainer } from "./components/CheckoutContainer";
 
 function App() {
   return (
     <>
       <Switch>
         <Route exact path="/login" component={SignInContainer} />
+        <Route exact path="/checkout">
+          <Header />
+          <main>
+            <CheckoutContainer />
+          </main>
+        </Route>
 
         <Route path="/:organizationId/:productionId/:performanceId">
           <Header />

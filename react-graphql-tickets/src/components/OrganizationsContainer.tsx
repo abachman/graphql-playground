@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
 import { QueryError } from "./QueryError";
 import { Link } from "react-router-dom";

@@ -1,5 +1,7 @@
 module Types
   class QueryType < Types::BaseObject
+    include Queries::OrganizationQuery
+
     field :production, Types::ProductionType, null: false do
       description 'A single production'
       argument :organizationId, ID, required: true
@@ -8,24 +10,6 @@ module Types
 
     def production(organizationId:, id:)
       Production.find_by(id: id, organization_id: organizationId)
-    end
-
-    field :organization, Types::OrganizationType, null: false do
-      description 'A single organization'
-      argument :id, ID, required: true
-    end
-
-    def organization(id:)
-      Organization.find(id)
-    end
-
-    field :organizations,
-          [Types::OrganizationType],
-          null: true,
-          description: 'All organizations'
-
-    def organizations
-      Organization.all
     end
 
     field :current_user,
@@ -48,6 +32,21 @@ module Types
       Performance
         .includes(production: %i[ticket_types organization])
         .find_by(id: id)
+    end
+
+    field :draft_receipt, Types::ReceiptType, null: true
+
+    def draft_receipt
+      customer = context[:current_user].customer
+      receipt = customer&.draft_receipt
+
+      if receipt
+        Receipt
+          .includes(
+            tickets: [:performance, ticket_type: [production: :organization]],
+          )
+          .find_by(id: receipt.id)
+      end
     end
   end
 end

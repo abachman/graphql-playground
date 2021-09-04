@@ -19,9 +19,6 @@ export interface GetProduction_production {
   id: string;
   title: string | null;
   performanceCount: number;
-  /**
-   * Performances of the given production
-   */
   performances: GetProduction_production_performances[] | null;
 }
 

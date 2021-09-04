@@ -35,7 +35,7 @@ type Mutation {
   createOrder: CreateOrderPayload
   createPerformance(performance: PerformanceInput!, productionId: ID!): CreatePerformancePayload
   signInUser(credentials: AuthProviderCredentialsInput): SignInUserPayload
-  updateOrder(action: String!, performanceId: ID!, receiptId: ID!, ticketTypeId: ID!): UpdateOrderPayload
+  updateOrder(receiptId: ID!, update: UpdateOrderInput!): UpdateOrderPayload
 }
 
 type Organization {
@@ -52,7 +52,7 @@ type Performance {
   doorsOpenAt: ISO8601DateTime
   id: ID!
   name: String
-  productionId: Int!
+  production: Production!
   showtimeAt: ISO8601DateTime
   updatedAt: ISO8601DateTime!
 }
@@ -67,18 +67,15 @@ type PerformanceOrderForm {
   organization: Organization!
   performance: Performance!
   production: Production!
+  receipt: Receipt!
   ticketTypes: [TicketType!]!
 }
 
 type Production {
   createdAt: ISO8601DateTime!
   id: ID!
-  organizationId: Int!
+  organization: Organization!
   performanceCount: Int!
-
-  """
-  Performances of the given production
-  """
   performances: [Performance!]
   runtimeMinutes: Int
   ticketTypes: [TicketType!]
@@ -91,6 +88,7 @@ type Query {
   Current user
   """
   currentUser: User
+  draftReceipt: Receipt
 
   """
   A single organization
@@ -117,6 +115,7 @@ type Receipt {
   aasmState: String!
   customer: Customer!
   id: ID!
+  tickets: [Ticket!]!
 }
 
 """
@@ -127,13 +126,29 @@ type SignInUserPayload {
   user: User
 }
 
+type Ticket {
+  id: ID!
+  performance: Performance!
+  ticketType: TicketType!
+}
+
 type TicketType {
   createdAt: ISO8601DateTime!
   id: ID!
   name: String!
   priceInCents: Int!
-  productionId: Int!
+  production: Production!
   updatedAt: ISO8601DateTime!
+}
+
+input TicketTypeQuantityInput {
+  quantity: Int!
+  ticketTypeId: ID!
+}
+
+input UpdateOrderInput {
+  performanceId: ID!
+  ticketTypeQuantities: [TicketTypeQuantityInput!]!
 }
 
 """

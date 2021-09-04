@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { Link, useHistory } from "react-router-dom";
-import { GetCurrentUser, GetCurrentUserData } from "../queries/GetCurrentUser";
+import { GetCurrentUser as GetCurrentUserQuery } from "../queries/GetCurrentUser";
+import { GetCurrentUser } from "../queries/__generated__/GetCurrentUser";
 import { setToken } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { QueryError } from "./QueryError";
@@ -12,7 +13,7 @@ export const SignInButton = () => {
   const token = useAppSelector((state) => state.auth.token);
 
   const { client, loading, error, data } =
-    useQuery<GetCurrentUserData>(GetCurrentUser);
+    useQuery<GetCurrentUser>(GetCurrentUserQuery);
 
   if (loading) return <p>loading...</p>;
   if (error) return <QueryError error={error} />;

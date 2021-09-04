@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
 import { AUTH_TOKEN } from "../constants";
 import { GetOrganizationQuery } from "../queries/GetOrganization";

@@ -5,6 +5,7 @@
 # files.
 
 require 'helpers/json_helpers'
+require 'helpers/file_helpers'
 
 # Given that it is always loaded, you are encouraged to keep this file as
 # light-weight as possible. Requiring heavyweight dependencies from this file
@@ -17,6 +18,7 @@ require 'helpers/json_helpers'
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.include JsonHelpers
+  config.include FileHelpers
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
