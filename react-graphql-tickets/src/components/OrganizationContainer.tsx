@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
 import { AUTH_TOKEN } from "../constants";
 import { GetOrganizationQuery } from "../queries/GetOrganization";
+import { CustomerContainer } from "./CustomerContainer";
 import { QueryError } from "./QueryError";
 import { GetOrganization } from "./__generated__/GetOrganization";
 
@@ -40,6 +41,8 @@ export const OrganizationContainer = () => {
         })}
 
         {token && <button>Add Organization</button>}
+
+        {token && <CustomerContainer organizationId={id} />}
       </div>
     );
   }

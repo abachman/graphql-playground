@@ -16,6 +16,7 @@ import { store } from "./store/store";
 
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
+import { relayStylePagination } from "@apollo/client/utilities";
 
 const link = createHttpLink({
   uri: "http://localhost:3001/graphql",
@@ -24,7 +25,7 @@ const link = createHttpLink({
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token = store.getState().auth.token;
-  console.log("[authLink]", token);
+  // console.log("[authLink]", token);
 
   // return the headers to the context so httpLink can read them
   return {
@@ -36,7 +37,15 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Organization: {
+        fields: {
+          customers: relayStylePagination(),
+        },
+      },
+    },
+  }),
   link: authLink.concat(link),
 });
 
