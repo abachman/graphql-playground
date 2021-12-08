@@ -10,14 +10,27 @@ puts '--- db:seed ---'
 
 RUNTIMES = [30, 60, 90, 120, 150]
 
+customers = []
+100.times do
+  customers << Customer.create!(
+    name: Faker::Name.name,
+    email: Faker::Internet.email,
+  )
+end
+
 3.times do
+  # customers
   # org + performances
   org =
     Organization.create!(
       name: "#{Faker::Commerce.color} #{Faker::Ancient.titan}".titleize,
     )
-
   puts "[org] populate #{org.name}"
+
+  rand(50..75).times do
+    org.customers << customers.sample
+  end
+
 
   rand(2..4).times do
     User.create!(

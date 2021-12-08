@@ -8,4 +8,12 @@ class Customer < ApplicationRecord
     # FIXME: could create multiple draft receipts
     receipts.draft.first.presence || receipts.create
   end
+
+  def self.likeify(string)
+    "%#{string}%"
+  end
+
+  def self.search(string)
+    where("name LIKE ? OR email LIKE ?", likeify(string), likeify(string))
+  end
 end

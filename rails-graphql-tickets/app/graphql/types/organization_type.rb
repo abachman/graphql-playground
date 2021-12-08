@@ -7,5 +7,14 @@ module Types
 
     field :productions, [Types::ProductionType], null: false
     field :users, [Types::UserType], null: false
+
+    field :customers, Types::Customer.connection_type, null: false
+
+    field :customerSearch, Types::CustomerConnectionWrapper, null: false do
+      argument :input, Inputs::CustomerSearchInput, required: true
+    end
+    def customerSearch(input:)
+      Types::CustomerConnectionWrapper::Input.new(object, input.query, input.ids)
+    end
   end
 end
