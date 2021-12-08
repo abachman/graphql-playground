@@ -9,7 +9,7 @@ ADD Gemfile* ${APP_HOME}/
 ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile \
   BUNDLE_JOBS=2 \
   BUNDLE_PATH=/bundle
-# RUN bundle install
+RUN bundle install
 
 COPY bin/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
