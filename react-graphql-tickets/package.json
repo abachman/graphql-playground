@@ -34,7 +34,9 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "schema": "cp -vR ../rails-graphql-tickets/export/* external/; apollo codegen:generate --localSchemaFile=./external/graphql/schema.json --target=typescript"
+    "download": "apollo service:download --endpoint=http://localhost:3001/graphql external/graphql/schema.json",
+    "download-schema": "apollo client:download-schema --endpoint=http://localhost:3001/graphql external/graphql/schema.graphql",
+    "schema": "yarn run download; yarn run download-schema; apollo codegen:generate --localSchemaFile=./external/graphql/schema.json --target=typescript"
   },
   "eslintConfig": {
     "extends": [
