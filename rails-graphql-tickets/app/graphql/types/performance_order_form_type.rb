@@ -2,7 +2,7 @@ module Types
   class PerformanceOrderFormType < Types::BaseObject
     field :performance, Types::PerformanceType, null: false
     field :production, Types::ProductionType, null: false
-    field :organization, Types::OrganizationType, null: false
+    field :organization, Types::Organization, null: false
     field :ticket_types, [Types::TicketTypeType], null: false
     field :receipt, Types::ReceiptType, null: false
 

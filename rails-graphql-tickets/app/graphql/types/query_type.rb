@@ -1,7 +1,5 @@
 module Types
   class QueryType < Types::BaseObject
-    include Queries::OrganizationQuery
-
     field :production, Types::ProductionType, null: false do
       description 'A single production'
       argument :organizationId, ID, required: true
@@ -39,10 +37,26 @@ module Types
       if receipt
         Receipt
           .includes(
-            tickets: [:performance, ticket_type: [production: :organization]],
+            tickets: [:performance, { ticket_type: [production: :organization] }]
           )
           .find_by(id: receipt.id)
       end
+    end
+
+    field :organization, Types::Organization, null: false do
+      description 'A single organization'
+      argument :id, GraphQL::Types::ID, required: true
+    end
+    def organization(id:)
+      ::Organization.find(id)
+    end
+
+    field :organizations,
+          [Types::Organization],
+          null: true,
+          description: 'All organizations'
+    def organizations
+      ::Organization.all
     end
   end
 end

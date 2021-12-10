@@ -202,12 +202,10 @@ module Queries
 
           data = json['data']['organization']
 
-          if after
-            puts "AFTER #{after}"
-          end
-          see data
-
-          data
+          # if after
+          #   puts "AFTER #{after}"
+          # end
+          # see data
         end
 
         it 'returns paginated customers' do
