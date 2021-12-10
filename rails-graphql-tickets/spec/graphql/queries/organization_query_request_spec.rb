@@ -73,6 +73,7 @@ module Queries
                 id
                 name
                 customers(after: $cursor) {
+                  totalCount
                   pageInfo {
                     hasPreviousPage
                     hasNextPage
@@ -106,6 +107,16 @@ module Queries
           expect(response).to be_successful
 
           json = JSON.parse(response.body)
+
+          if json.nil?
+            see response.body
+            raise 'unexpected error response'
+          end
+
+          if json['errors']
+            see json
+            raise 'unexpected error response'
+          end
 
           data = json['data']['organization']
 
@@ -149,7 +160,7 @@ module Queries
         end
       end
 
-      describe 'wrapped connection' do
+      describe 'wrapped connection search string' do
         def customers_query
           <<~GQL
             query($id: ID!, $cursor: String, $input: CustomerSearchInput!) {
@@ -201,22 +212,17 @@ module Queries
           end
 
           data = json['data']['organization']
-
-          # if after
-          #   puts "AFTER #{after}"
-          # end
-          # see data
         end
 
         it 'returns paginated customers' do
           seen = {}
 
-          collect = ->(edges) do
-            edges.each {|customer_edge|
+          collect = lambda do |edges|
+            edges.each do |customer_edge|
               id = customer_edge['node']['id']
               expect(seen).to_not have_key(id)
               seen[id] = true
-            }
+            end
           end
 
           data = do_request
@@ -233,6 +239,98 @@ module Queries
 
           data = do_request(after: data['customerSearch']['customers']['pageInfo']['endCursor'])
           collect.call(data['customerSearch']['customers']['edges'])
+
+          customers.each do |customer|
+            expect(seen).to have_key(customer.id.to_s)
+          end
+        end
+      end
+
+      describe 'wrapped connection id list' do
+        let(:customer_ids) { customers.map(&:id) }
+
+        def customers_query
+          <<~GQL
+            query($id: ID!, $cursor: String, $input: CustomerSearchInput!) {
+              organization(id: $id) {
+                __typename
+                id
+                name
+                customerSearch(input: $input) {
+                  customersById(after: $cursor) {
+                    pageInfo {
+                      hasPreviousPage
+                      hasNextPage
+                      startCursor
+                      endCursor
+                    }
+                    edges {
+                      cursor
+                      node {
+                        __typename
+                        id
+                        name
+                        email
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          GQL
+        end
+
+        def do_request(after: nil)
+          post '/graphql',
+               params: {
+                 query: customers_query,
+                 variables: {
+                   id: organization.id,
+                   cursor: after,
+                   input: { ids: customer_ids }
+                 }
+               }
+          expect(response).to be_successful
+
+          json = JSON.parse(response.body)
+
+          if json['errors']
+            see json
+            raise 'unexpected error response'
+          end
+
+          data = json['data']['organization']
+        end
+
+        it 'returns paginated customers' do
+          seen = {}
+
+          collect = lambda do |edges|
+            edges.each do |customer_edge|
+              id = customer_edge['node']['id']
+              expect(seen).to_not have_key(id)
+              seen[id] = true
+            end
+          end
+
+          edges = %w(customerSearch customersById edges)
+
+          data = do_request
+          collect.call(data.dig(*edges))
+
+          end_cursor = %w(customerSearch customersById pageInfo endCursor)
+
+          data = do_request(after: data.dig(*end_cursor))
+          collect.call(data.dig(*edges))
+
+          data = do_request(after: data.dig(*end_cursor))
+          collect.call(data.dig(*edges))
+
+          data = do_request(after: data.dig(*end_cursor))
+          collect.call(data.dig(*edges))
+
+          data = do_request(after: data.dig(*end_cursor))
+          collect.call(data.dig(*edges))
 
           customers.each do |customer|
             expect(seen).to have_key(customer.id.to_s)
