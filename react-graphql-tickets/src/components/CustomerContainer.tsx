@@ -30,24 +30,42 @@ export const CustomerContainer = ({ organizationId }: Props) => {
     return (
       <div>
         <h4>Customers</h4>
-        {data.organization.customers.edges?.map((edge) => {
-          if (edge?.node) {
-            return (
-              <p key={edge?.node?.id}>
-                {edge?.node?.name} &lt;{edge?.node?.email}&gt;
-              </p>
-            );
-          } else {
-            return null;
-          }
-        })}
 
-        <p>
-          page {page}: {JSON.stringify(data.organization.customers.pageInfo)}
+        {data.organization.customers.edges && (
+          <table className="table-auto w-full">
+            <thead>
+              <tr className="border-b">
+                <th className="p-4 pl-0 text-left">ID</th>
+                <th className="p-4 pl-0 text-left">Name</th>
+                <th className="p-4 pl-0 text-left">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.organization.customers.edges?.map((edge) => {
+                if (edge?.node) {
+                  const customer = edge.node;
+                  return (
+                    <tr key={customer.id}>
+                      <td>{customer.id}</td>
+                      <td>{customer.name}</td>
+                      <td>&lt;{customer.email}&gt;</td>
+                    </tr>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </tbody>
+          </table>
+        )}
+
+        <p className="mt-8 mb-8">
+          loaded {data.organization.customers.edges?.length} of {}
         </p>
 
         {data.organization.customers.pageInfo.hasNextPage && (
           <button
+            className="btn"
             onClick={() => {
               console.log("more", {
                 organizationId,
@@ -63,7 +81,7 @@ export const CustomerContainer = ({ organizationId }: Props) => {
               setPage(page + 1);
             }}
           >
-            Next &gt;&gt;
+            Load More
           </button>
         )}
       </div>
