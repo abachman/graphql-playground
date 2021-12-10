@@ -73,7 +73,6 @@ module Queries
                 id
                 name
                 customers(after: $cursor) {
-                  totalCount
                   pageInfo {
                     hasPreviousPage
                     hasNextPage
@@ -118,14 +117,7 @@ module Queries
             raise 'unexpected error response'
           end
 
-          data = json['data']['organization']
-
-          # if after
-          #   puts "AFTER #{after}"
-          # end
-          # see data
-
-          data
+          json['data']['organization']
         end
 
         it 'returns paginated customers' do
